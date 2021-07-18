@@ -16,15 +16,13 @@ const Home = () => {
     const dispatch = useDispatch();
     const data = useSelector(store => store.userInfo);
     console.log(data)
-    const authChange = async () => {
+
+    useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if(user) {
                 dispatch(singin(user));
             }
         });
-    }
-    useEffect(() => {
-        authChange();
         db.collection('movies').onSnapshot((snap) => {
             let info = snap.docs.map(movie => {
                 return {id:movie.id, ...movie.data()}
